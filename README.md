@@ -1,1 +1,1 @@
-# Stock_Analysis-Prediction
+# Stock Analysis & Prediction
