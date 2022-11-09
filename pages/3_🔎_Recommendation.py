@@ -246,6 +246,8 @@ for key in data['people_also_search_for']['items']:
     if 'Up' in str(key['price_change']):
         color = 'green'
     st.write('price_change : ','<x style="color:', color, '">', str(key['price_change']), '</x>', unsafe_allow_html=True)
+if len(data['people_also_search_for']['items']) == 0:
+    st.write('No data found!')
 
 #st.write(data)
 
