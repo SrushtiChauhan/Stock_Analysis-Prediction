@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 import requests, lxml, json
 import pandas as pd
 import yahoo_fin.stock_info as si
+import yfinance as yf
+import time
 
 # https://docs.python.org/3/library/itertools.html#itertools.zip_longest
 from itertools import zip_longest 
@@ -187,8 +189,78 @@ with title_col2:
     if sector_name == "Utilities":
         ticker_name = st.selectbox('Select Ticker :',list_ut,index = 0)
 
+
+tkr = yf.Ticker(ticker_name)
+ticker_info = tkr.info
+
+ten_year_treasury_rate_tkr = yf.Ticker("^TNX")
+
 data = scrape_google_finance(ticker=f"{ticker_name}:NASDAQ")
-st.write(data)
+
+# st.snow()
+# st.balloons()
+# with st.spinner('Wait for it...'):
+#     time.sleep(5)
+# st.success('Done!')
+# st.warning('This is a warning', icon="⚠️")
+# st.error('This is an error', icon="🚨")
+# st.info('This is a purely informational message', icon="ℹ️")
+# st.success('This is a success message!', icon="✅")
+
+title_col1,title_col2,title_col3 = st.columns([6,4,3])
+with title_col1:
+    st.write(ticker_info['shortName'])
+with title_col2:
+    st.write('Current Price : 💲', ticker_info['currentPrice'])
+with title_col3:
+    recc = ticker_info['recommendationKey']
+    if recc == 'none':
+        st.warning('Hold')
+    if recc == 'buy':
+        st.info('Buy')
+    if recc == 'strong_buy':
+        st.success('Strongly Buy')
+
+title_col1,title_col2,title_col3 = st.columns([3,3,3])
+with title_col1:
+    st.write('MarketCap', ticker_info['marketCap'])
+with title_col2:
+    st.write('Gross Profits', ticker_info['grossProfits'])
+with title_col3:
+    st.write('Last Dividend Value', ticker_info['lastDividendValue'])
+
+title_col1,title_col2,title_col3 = st.columns([5,4,3])
+with title_col1:
+    st.write('52 Week High - Low ', ticker_info['fiftyTwoWeekHigh'], '-', ticker_info['fiftyTwoWeekLow'])
+with title_col2:
+    st.write('Day High - Low', ticker_info['dayHigh'], '-', ticker_info['dayLow'])
+with title_col3:
+    st.write('Tradeable', ticker_info['tradeable'])
+
+st.subheader('Business Summary:')
+st.write(ticker_info['longBusinessSummary'])
+
+st.subheader('News:')
+count = 1
+for key in data['news']['items']:
+    st.write('<b>' ,str(count),'. ', str(key['title']), '</b>', unsafe_allow_html=True)
+    st.write(key['link'])
+    st.write('published : ', str(key['published']))
+    count += 1
+st.subheader("people also search for:")
+for key in data['people_also_search_for']['items']:
+    st.write('<p style="color:#2c47bfc9;font-weight: bold;">',str(key['position']),'. ', str(key['ticker']), '-', str(key['title']),'</p>', unsafe_allow_html=True)
+    st.write('current_price : ', key['price'])
+    color = 'blue'
+    if 'Down' in str(key['price_change']):
+        color = 'red'
+    if 'Up' in str(key['price_change']):
+        color = 'green'
+    st.write('price_change : ','<x style="color:', color, '">', str(key['price_change']), '</x>', unsafe_allow_html=True)
+
+# st.write(ticker_info)
+
+# st.write(data)
 
 # for key in data['ticker_data']:
 #     st.write(key, '->', data['ticker_data'][key])
