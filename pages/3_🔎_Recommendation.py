@@ -230,7 +230,7 @@ with title_col3:
 st.subheader('Business Summary:')
 st.write(ticker_info['longBusinessSummary'])
 
-st.write(data)
+st.write(data['people_also_search_for']['items'])
 
 st.subheader('News:')
 count = 1
