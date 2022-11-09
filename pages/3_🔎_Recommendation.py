@@ -197,16 +197,6 @@ ten_year_treasury_rate_tkr = yf.Ticker("^TNX")
 
 data = scrape_google_finance(ticker=f"{ticker_name}:NASDAQ")
 
-# st.snow()
-# st.balloons()
-# with st.spinner('Wait for it...'):
-#     time.sleep(5)
-# st.success('Done!')
-# st.warning('This is a warning', icon="⚠️")
-# st.error('This is an error', icon="🚨")
-# st.info('This is a purely informational message', icon="ℹ️")
-# st.success('This is a success message!', icon="✅")
-
 title_col1,title_col2,title_col3 = st.columns([6,4,3])
 with title_col1:
     st.write(ticker_info['shortName'])
@@ -240,6 +230,8 @@ with title_col3:
 st.subheader('Business Summary:')
 st.write(ticker_info['longBusinessSummary'])
 
+st.write(data)
+
 st.subheader('News:')
 count = 1
 for key in data['news']['items']:
@@ -260,3 +252,20 @@ for key in data['people_also_search_for']['items']:
 
 
 
+
+# st.snow()
+# st.balloons()
+# with st.spinner('Wait for it...'):
+#     time.sleep(5)
+# st.success('Done!')
+# st.warning('This is a warning', icon="⚠️")
+# st.error('This is an error', icon="🚨")
+# st.info('This is a purely informational message', icon="ℹ️")
+# st.success('This is a success message!', icon="✅")
+
+# st.write(ticker_info)
+
+# st.write(data)
+
+# for key in data['ticker_data']:
+#     st.write(key, '->', data['ticker_data'][key])
