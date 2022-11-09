@@ -230,8 +230,6 @@ with title_col3:
 st.subheader('Business Summary:')
 st.write(ticker_info['longBusinessSummary'])
 
-st.write(data['people_also_search_for']['items'])
-
 st.subheader('News:')
 count = 1
 for key in data['news']['items']:
@@ -249,6 +247,8 @@ for key in data['people_also_search_for']['items']:
     if 'Up' in str(key['price_change']):
         color = 'green'
     st.write('price_change : ','<x style="color:', color, '">', str(key['price_change']), '</x>', unsafe_allow_html=True)
+
+st.write(data['people_also_search_for']['items'])
 
 
 
