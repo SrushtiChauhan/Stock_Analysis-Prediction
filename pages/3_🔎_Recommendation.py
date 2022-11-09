@@ -12,6 +12,25 @@ import time
 # https://docs.python.org/3/library/itertools.html#itertools.zip_longest
 from itertools import zip_longest 
 
+def discover_more_tickers(index: int, other_data: str):
+    """
+    if price_change_formatted will start complaining,
+    check beforehand for None values with try/except and set it to 0, in this function.
+    
+    however, re.search(r"\d{1}%|\d{1,10}\.\d{1,2}%" should make the job done.
+    """
+    return {
+            "position": index,
+            "ticker": other_data.css(".COaKTb::text").get(),
+            "ticker_link": f'https://www.google.com/finance{other_data.attrib["href"].replace("./", "/")}',
+            "title": other_data.css(".RwFyvf::text").get(),
+            "price": other_data.css(".YMlKec::text").get(),
+            "price_change": other_data.css("[jsname=Fe7oBc]::attr(aria-label)").get(),
+            # https://regex101.com/r/BOFBlt/1
+            # Up by 100.99% -> 100.99%
+            "price_change_formatted": re.search(r"\d{1}%|\d{1,10}\.\d{1,2}%", other_data.css("[jsname=Fe7oBc]::attr(aria-label)").get()).group()
+        }
+
 def scrape_google_finance(ticker: str):
     params = {
         "hl": "en" # language
@@ -102,26 +121,6 @@ def scrape_google_finance(ticker: str):
         
 
     return ticker_data
-
-
-def discover_more_tickers(index: int, other_data: str):
-    """
-    if price_change_formatted will start complaining,
-    check beforehand for None values with try/except and set it to 0, in this function.
-    
-    however, re.search(r"\d{1}%|\d{1,10}\.\d{1,2}%" should make the job done.
-    """
-    return {
-            "position": index,
-            "ticker": other_data.css(".COaKTb::text").get(),
-            "ticker_link": f'https://www.google.com/finance{other_data.attrib["href"].replace("./", "/")}',
-            "title": other_data.css(".RwFyvf::text").get(),
-            "price": other_data.css(".YMlKec::text").get(),
-            "price_change": other_data.css("[jsname=Fe7oBc]::attr(aria-label)").get(),
-            # https://regex101.com/r/BOFBlt/1
-            # Up by 100.99% -> 100.99%
-            "price_change_formatted": re.search(r"\d{1}%|\d{1,10}\.\d{1,2}%", other_data.css("[jsname=Fe7oBc]::attr(aria-label)").get()).group()
-        }
 
 list_sectors = []
 list_sectors.append('Basic Materials')
@@ -248,8 +247,7 @@ for key in data['people_also_search_for']['items']:
         color = 'green'
     st.write('price_change : ','<x style="color:', color, '">', str(key['price_change']), '</x>', unsafe_allow_html=True)
 
-st.write(data['people_also_search_for']['items'])
-
+#st.write(data)
 
 
 
