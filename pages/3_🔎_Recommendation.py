@@ -258,10 +258,5 @@ for key in data['people_also_search_for']['items']:
         color = 'green'
     st.write('price_change : ','<x style="color:', color, '">', str(key['price_change']), '</x>', unsafe_allow_html=True)
 
-# st.write(ticker_info)
 
-# st.write(data)
-
-# for key in data['ticker_data']:
-#     st.write(key, '->', data['ticker_data'][key])
 
