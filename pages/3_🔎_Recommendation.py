@@ -236,7 +236,7 @@ for key in data['news']['items']:
     st.write(key['link'])
     st.write('published : ', str(key['published']))
     count += 1
-st.subheader("people also search for:")
+st.subheader("People also search for:")
 for key in data['people_also_search_for']['items']:
     st.write('<p style="color:#2c47bfc9;font-weight: bold;">',str(key['position']),'. ', str(key['ticker']), '-', str(key['title']),'</p>', unsafe_allow_html=True)
     st.write('current_price : ', key['price'])
